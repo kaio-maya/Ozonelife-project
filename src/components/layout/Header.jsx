@@ -2,17 +2,20 @@ import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, LogOut } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { base44 } from '../../lib/base44';
 
 export default function Header() {
     const [isOpen, setIsOpen] = useState(false);
     const location = useLocation();
     const isAdmin = location.pathname.startsWith('/dashboard') ||
         location.pathname.startsWith('/gerenciar') ||
-        location.pathname.startsWith('/agendamentos');
+        location.pathname.startsWith('/agendamentos') ||
+        location.pathname.startsWith('/calendario');
 
     const links = isAdmin
         ? [
             { name: 'Dashboard', path: '/dashboard' },
+            { name: 'Calendário', path: '/calendario' },
             { name: 'Serviços', path: '/gerenciarservicos' },
             { name: 'Produtos', path: '/gerenciarprodutos' },
             { name: 'Agendamentos', path: '/agendamentos' },
@@ -45,7 +48,10 @@ export default function Header() {
                         </Link>
                     ))}
                     {isAdmin && (
-                        <button className="flex items-center gap-2 text-red-500 hover:text-red-600 font-medium text-sm">
+                        <button
+                            onClick={() => base44.auth.logout()}
+                            className="flex items-center gap-2 text-red-500 hover:text-red-600 font-medium text-sm"
+                        >
                             <LogOut size={18} />
                             Sair
                         </button>
@@ -85,7 +91,10 @@ export default function Header() {
                                 </Link>
                             ))}
                             {isAdmin && (
-                                <button className="flex items-center gap-2 text-red-500 p-2 font-medium">
+                                <button
+                                    onClick={() => base44.auth.logout()}
+                                    className="flex items-center gap-2 text-red-500 p-2 font-medium"
+                                >
                                     <LogOut size={20} />
                                     Sair
                                 </button>

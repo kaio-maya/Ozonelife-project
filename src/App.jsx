@@ -12,6 +12,7 @@ import Dashboard from './pages/admin/Dashboard';
 import ManageServices from './pages/admin/ManageServices';
 import ManageProducts from './pages/admin/ManageProducts';
 import Appointments from './pages/admin/Appointments';
+import Calendar from './pages/admin/Calendar';
 import ProtectedRoute from './components/layout/ProtectedRoute';
 
 
@@ -38,6 +39,7 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route element={<Layout />}>
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/calendario" element={<Calendar />} />
               <Route path="/gerenciarservicos" element={<ManageServices />} />
               <Route path="/gerenciarprodutos" element={<ManageProducts />} />
               <Route path="/agendamentos" element={<Appointments />} />
