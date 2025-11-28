@@ -10,12 +10,14 @@ export default function Header() {
     const isAdmin = location.pathname.startsWith('/dashboard') ||
         location.pathname.startsWith('/gerenciar') ||
         location.pathname.startsWith('/agendamentos') ||
-        location.pathname.startsWith('/calendario');
+        location.pathname.startsWith('/calendario') ||
+        location.pathname.startsWith('/vendas');
 
     const links = isAdmin
         ? [
             { name: 'Dashboard', path: '/dashboard' },
             { name: 'Calendário', path: '/calendario' },
+            { name: 'Formulário', path: '/vendas' },
             { name: 'Serviços', path: '/gerenciarservicos' },
             { name: 'Produtos', path: '/gerenciarprodutos' },
             { name: 'Agendamentos', path: '/agendamentos' },

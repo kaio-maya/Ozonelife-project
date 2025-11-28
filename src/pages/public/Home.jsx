@@ -127,20 +127,45 @@ export default function Home() {
                         {services?.map((service) => (
                             <Link key={service.id} to="/servicos" className="group">
                                 <div className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 h-full flex flex-col">
-                                    <div className="h-48 overflow-hidden">
+                                    <div className="h-48 overflow-hidden relative">
                                         <img
                                             src={service.imagem_servico || 'https://via.placeholder.com/400x300'}
                                             alt={service.nome_servico}
                                             className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
                                         />
+                                        {service.preco > 0 && service.desconto > 0 && (
+                                            <div className="absolute top-3 right-3 bg-red-500 text-white font-bold text-sm px-3 py-1 rounded-full shadow-lg z-10">
+                                                {service.desconto}% OFF
+                                            </div>
+                                        )}
                                     </div>
                                     <div className="p-6 flex-grow">
                                         <h3 className="text-xl font-bold mb-2 text-gray-900 group-hover:text-cyan-600 transition-colors">
                                             {service.nome_servico}
                                         </h3>
-                                        <p className="text-gray-600 line-clamp-3">
+                                        <p className="text-gray-600 line-clamp-3 mb-4">
                                             {service.descricao_servico}
                                         </p>
+                                        <div className="flex items-center gap-2">
+                                            {service.preco > 0 && (
+                                                <>
+                                                    {service.desconto > 0 ? (
+                                                        <>
+                                                            <span className="text-gray-400 line-through text-xs">
+                                                                {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(service.preco)}
+                                                            </span>
+                                                            <span className="text-cyan-600 font-bold text-lg">
+                                                                {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(service.preco * (1 - service.desconto / 100))}
+                                                            </span>
+                                                        </>
+                                                    ) : (
+                                                        <span className="text-cyan-600 font-bold text-lg">
+                                                            {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(service.preco)}
+                                                        </span>
+                                                    )}
+                                                </>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                             </Link>
@@ -175,20 +200,45 @@ export default function Home() {
                         {products?.map((product) => (
                             <Link key={product.id} to="/produtos" className="group">
                                 <div className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 h-full flex flex-col">
-                                    <div className="h-48 overflow-hidden">
+                                    <div className="h-48 overflow-hidden relative">
                                         <img
                                             src={product.imagem_produto || 'https://via.placeholder.com/400x300'}
                                             alt={product.nome_produto}
                                             className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
                                         />
+                                        {product.preco > 0 && product.desconto > 0 && (
+                                            <div className="absolute top-3 right-3 bg-red-500 text-white font-bold text-sm px-3 py-1 rounded-full shadow-lg z-10">
+                                                {product.desconto}% OFF
+                                            </div>
+                                        )}
                                     </div>
                                     <div className="p-6 flex-grow">
                                         <h3 className="text-xl font-bold mb-2 text-gray-900 group-hover:text-emerald-600 transition-colors">
                                             {product.nome_produto}
                                         </h3>
-                                        <p className="text-gray-600 line-clamp-3">
+                                        <p className="text-gray-600 line-clamp-3 mb-4">
                                             {product.descricao_produto}
                                         </p>
+                                        <div className="flex items-center gap-2">
+                                            {product.preco > 0 && (
+                                                <>
+                                                    {product.desconto > 0 ? (
+                                                        <>
+                                                            <span className="text-gray-400 line-through text-xs">
+                                                                {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(product.preco)}
+                                                            </span>
+                                                            <span className="text-emerald-600 font-bold text-lg">
+                                                                {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(product.preco * (1 - product.desconto / 100))}
+                                                            </span>
+                                                        </>
+                                                    ) : (
+                                                        <span className="text-emerald-600 font-bold text-lg">
+                                                            {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(product.preco)}
+                                                        </span>
+                                                    )}
+                                                </>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                             </Link>

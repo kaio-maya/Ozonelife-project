@@ -40,20 +40,48 @@ export default function Products() {
                                 transition={{ delay: idx * 0.1 }}
                                 className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group"
                             >
-                                <div className="h-56 overflow-hidden">
+                                <div className="h-56 overflow-hidden relative">
                                     <img
                                         src={product.imagem_produto || 'https://via.placeholder.com/400x300'}
                                         alt={product.nome_produto}
                                         className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
                                     />
+                                    {product.preco > 0 && product.desconto > 0 && (
+                                        <div className="absolute top-4 right-4 bg-red-500 text-white font-bold px-3 py-1 rounded-full shadow-lg z-10">
+                                            {product.desconto}% OFF
+                                        </div>
+                                    )}
                                 </div>
                                 <div className="p-8">
                                     <h3 className="text-2xl font-bold mb-3 text-gray-900 group-hover:text-emerald-600 transition-colors">
                                         {product.nome_produto}
                                     </h3>
-                                    <p className="text-gray-600 leading-relaxed">
+                                    <p className="text-gray-600 leading-relaxed mb-4">
                                         {product.descricao_produto}
                                     </p>
+                                    <div className="flex items-center gap-3">
+                                        {product.preco > 0 && (
+                                            <>
+                                                {product.desconto > 0 ? (
+                                                    <>
+                                                        <span className="text-gray-400 line-through text-sm">
+                                                            {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(product.preco)}
+                                                        </span>
+                                                        <span className="text-emerald-600 font-bold text-xl">
+                                                            {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(product.preco * (1 - product.desconto / 100))}
+                                                        </span>
+                                                        <span className="bg-emerald-100 text-emerald-700 text-xs font-bold px-2 py-1 rounded-full">
+                                                            -{product.desconto}%
+                                                        </span>
+                                                    </>
+                                                ) : (
+                                                    <span className="text-emerald-600 font-bold text-xl">
+                                                        {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(product.preco)}
+                                                    </span>
+                                                )}
+                                            </>
+                                        )}
+                                    </div>
                                 </div>
                             </motion.div>
                         ))}

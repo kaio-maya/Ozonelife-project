@@ -40,20 +40,48 @@ export default function Services() {
                                 transition={{ delay: idx * 0.1 }}
                                 className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group"
                             >
-                                <div className="h-56 overflow-hidden">
+                                <div className="h-56 overflow-hidden relative">
                                     <img
                                         src={service.imagem_servico || 'https://via.placeholder.com/400x300'}
                                         alt={service.nome_servico}
                                         className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
                                     />
+                                    {service.preco > 0 && service.desconto > 0 && (
+                                        <div className="absolute top-4 right-4 bg-red-500 text-white font-bold px-3 py-1 rounded-full shadow-lg z-10">
+                                            {service.desconto}% OFF
+                                        </div>
+                                    )}
                                 </div>
                                 <div className="p-8">
                                     <h3 className="text-2xl font-bold mb-3 text-gray-900 group-hover:text-cyan-600 transition-colors">
                                         {service.nome_servico}
                                     </h3>
-                                    <p className="text-gray-600 leading-relaxed">
+                                    <p className="text-gray-600 leading-relaxed mb-4">
                                         {service.descricao_servico}
                                     </p>
+                                    <div className="flex items-center gap-3">
+                                        {service.preco > 0 && (
+                                            <>
+                                                {service.desconto > 0 ? (
+                                                    <>
+                                                        <span className="text-gray-400 line-through text-sm">
+                                                            {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(service.preco)}
+                                                        </span>
+                                                        <span className="text-cyan-600 font-bold text-xl">
+                                                            {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(service.preco * (1 - service.desconto / 100))}
+                                                        </span>
+                                                        <span className="bg-cyan-100 text-cyan-700 text-xs font-bold px-2 py-1 rounded-full">
+                                                            -{service.desconto}%
+                                                        </span>
+                                                    </>
+                                                ) : (
+                                                    <span className="text-cyan-600 font-bold text-xl">
+                                                        {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(service.preco)}
+                                                    </span>
+                                                )}
+                                            </>
+                                        )}
+                                    </div>
                                 </div>
                             </motion.div>
                         ))}

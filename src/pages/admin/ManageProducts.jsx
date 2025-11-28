@@ -137,6 +137,8 @@ function ProductModal({ isOpen, onClose, initialData, onSubmit, isSubmitting }) 
         nome_produto: initialData?.nome_produto || '',
         descricao_produto: initialData?.descricao_produto || '',
         imagem_produto: initialData?.imagem_produto || '',
+        preco: initialData?.preco || 0,
+        desconto: initialData?.desconto || 0,
         ordem: initialData?.ordem || 0,
     });
 
@@ -159,9 +161,9 @@ function ProductModal({ isOpen, onClose, initialData, onSubmit, isSubmitting }) 
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.9, opacity: 0 }}
-                className="bg-white rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl"
+                className="bg-white rounded-2xl w-full max-w-lg shadow-2xl max-h-[90vh] flex flex-col"
             >
-                <div className="p-6 border-b border-gray-100 flex justify-between items-center">
+                <div className="p-6 border-b border-gray-100 flex justify-between items-center flex-shrink-0">
                     <h2 className="text-xl font-bold text-gray-900">
                         {initialData ? 'Editar Produto' : 'Novo Produto'}
                     </h2>
@@ -175,7 +177,7 @@ function ProductModal({ isOpen, onClose, initialData, onSubmit, isSubmitting }) 
                         e.preventDefault();
                         onSubmit(formData);
                     }}
-                    className="p-6 space-y-4"
+                    className="p-6 space-y-4 overflow-y-auto"
                 >
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Nome do Produto</label>
@@ -224,6 +226,30 @@ function ProductModal({ isOpen, onClose, initialData, onSubmit, isSubmitting }) 
                                     <span>Clique para fazer upload</span>
                                 </div>
                             )}
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Preço (R$)</label>
+                            <input
+                                type="number"
+                                step="0.01"
+                                value={formData.preco}
+                                onChange={(e) => setFormData({ ...formData, preco: parseFloat(e.target.value) })}
+                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Desconto (%)</label>
+                            <input
+                                type="number"
+                                min="0"
+                                max="100"
+                                value={formData.desconto}
+                                onChange={(e) => setFormData({ ...formData, desconto: parseInt(e.target.value) })}
+                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none"
+                            />
                         </div>
                     </div>
 

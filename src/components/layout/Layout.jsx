@@ -2,6 +2,7 @@ import { Outlet } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 import ScrollToTop from './ScrollToTop';
+import WhatsAppButton from './WhatsAppButton';
 
 export default function Layout() {
     return (
@@ -11,6 +12,7 @@ export default function Layout() {
             <main className="flex-grow">
                 <Outlet />
             </main>
+            <WhatsAppButton />
             <Footer />
         </div>
     );
