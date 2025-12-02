@@ -121,9 +121,12 @@ export default function Calendar() {
                                     {dayAppointments.slice(0, 4).map((apt, i) => (
                                         <div
                                             key={i}
-                                            className={`w-2 h-2 rounded-full ${apt.status === 'confirmado' ? 'bg-green-500' :
-                                                    apt.status === 'cancelado' ? 'bg-red-500' :
-                                                        'bg-yellow-500'
+                                            className={`w-2 h-2 rounded-full ${apt.status === 'confirmado' ? 'bg-blue-500' :
+                                                    apt.status === 'concluido' ? 'bg-green-500' :
+                                                        apt.status === 'faltante' ? 'bg-red-500' :
+                                                            apt.status === 'cancelado' ? 'bg-gray-500' :
+                                                                apt.status === 'nao_concluido' ? 'bg-orange-500' :
+                                                                    'bg-yellow-500'
                                                 }`}
                                             title={`${apt.nome_paciente} - ${apt.servico}`}
                                         />
@@ -179,9 +182,12 @@ export default function Calendar() {
                                             >
                                                 <div className="flex justify-between items-start mb-3">
                                                     <div className="flex items-center gap-3">
-                                                        <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm ${apt.status === 'confirmado' ? 'bg-green-100 text-green-600' :
-                                                                apt.status === 'cancelado' ? 'bg-red-100 text-red-600' :
-                                                                    'bg-yellow-100 text-yellow-600'
+                                                        <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm ${apt.status === 'confirmado' ? 'bg-blue-100 text-blue-600' :
+                                                                apt.status === 'concluido' ? 'bg-green-100 text-green-600' :
+                                                                    apt.status === 'faltante' ? 'bg-red-100 text-red-600' :
+                                                                        apt.status === 'cancelado' ? 'bg-gray-100 text-gray-600' :
+                                                                            apt.status === 'nao_concluido' ? 'bg-orange-100 text-orange-600' :
+                                                                                'bg-yellow-100 text-yellow-600'
                                                             }`}>
                                                             {apt.nome_paciente?.charAt(0)}
                                                         </div>
@@ -190,9 +196,12 @@ export default function Calendar() {
                                                             <p className="text-sm text-gray-500">{apt.servico}</p>
                                                         </div>
                                                     </div>
-                                                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${apt.status === 'confirmado' ? 'bg-green-100 text-green-700' :
-                                                            apt.status === 'cancelado' ? 'bg-red-100 text-red-700' :
-                                                                'bg-yellow-100 text-yellow-700'
+                                                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${apt.status === 'confirmado' ? 'bg-blue-100 text-blue-700' :
+                                                            apt.status === 'concluido' ? 'bg-green-100 text-green-700' :
+                                                                apt.status === 'faltante' ? 'bg-red-100 text-red-700' :
+                                                                    apt.status === 'cancelado' ? 'bg-gray-100 text-gray-700' :
+                                                                        apt.status === 'nao_concluido' ? 'bg-orange-100 text-orange-700' :
+                                                                            'bg-yellow-100 text-yellow-700'
                                                         }`}>
                                                         {apt.status || 'Pendente'}
                                                     </span>

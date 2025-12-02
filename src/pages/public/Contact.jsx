@@ -1,5 +1,6 @@
 import { Mail, MessageCircle, Instagram, MapPin, Clock, Phone } from 'lucide-react';
 import { motion } from 'framer-motion';
+import SEO from '../../components/seo/SEO';
 
 export default function Contact() {
     const contactMethods = [
@@ -31,6 +32,11 @@ export default function Contact() {
 
     return (
         <div className="pb-20">
+            <SEO
+                title="Contato"
+                description="Entre em contato com a Ozonelife. Agende sua consulta ou tire suas dúvidas sobre ozonoterapia e tratamentos integrativos."
+                canonical="https://ozonelife.com.br/contato"
+            />
             <div className="bg-gray-900 text-white py-20">
                 <div className="container mx-auto px-4 text-center">
                     <motion.h1

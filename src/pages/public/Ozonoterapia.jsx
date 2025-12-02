@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Zap, Shield, Check, RefreshCw, Activity, Heart } from 'lucide-react';
+import SEO from '../../components/seo/SEO';
 
 export default function Ozonoterapia() {
     const benefits = [
@@ -22,6 +23,11 @@ export default function Ozonoterapia() {
 
     return (
         <div className="pb-20">
+            <SEO
+                title="O que é Ozonioterapia?"
+                description="Saiba tudo sobre a Ozonioterapia: benefícios, indicações e como esse tratamento integrativo pode transformar sua saúde."
+                canonical="https://ozonelife.com.br/ozonoterapia"
+            />
             {/* Header */}
             <div className="bg-cyan-50 py-20">
                 <div className="container mx-auto px-4 text-center">

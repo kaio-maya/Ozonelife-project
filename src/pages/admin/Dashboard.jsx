@@ -197,9 +197,12 @@ export default function Dashboard() {
                                             {new Date(apt.data_hora).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                         </p>
                                     </div>
-                                    <span className={`px-3 py-1 rounded-full text-xs font-medium ${apt.status === 'confirmado' ? 'bg-green-100 text-green-700' :
-                                        apt.status === 'cancelado' ? 'bg-red-100 text-red-700' :
-                                            'bg-yellow-100 text-yellow-700'
+                                    <span className={`px-3 py-1 rounded-full text-xs font-medium ${apt.status === 'confirmado' ? 'bg-blue-100 text-blue-700' :
+                                            apt.status === 'concluido' ? 'bg-green-100 text-green-700' :
+                                                apt.status === 'faltante' ? 'bg-red-100 text-red-700' :
+                                                    apt.status === 'cancelado' ? 'bg-gray-100 text-gray-700' :
+                                                        apt.status === 'nao_concluido' ? 'bg-orange-100 text-orange-700' :
+                                                            'bg-yellow-100 text-yellow-700'
                                         }`}>
                                         {apt.status || 'Pendente'}
                                     </span>

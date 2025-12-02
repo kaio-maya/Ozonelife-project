@@ -1,6 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { base44 } from '../../lib/base44';
+import SEO from '../../components/seo/SEO';
+import ImageWithSkeleton from '../../components/ui/ImageWithSkeleton';
 
 export default function Services() {
     const { data: services, isLoading } = useQuery({
@@ -10,6 +12,11 @@ export default function Services() {
 
     return (
         <div className="pb-20">
+            <SEO
+                title="Nossos Serviços"
+                description="Conheça nossos tratamentos de Ozonoterapia e terapias integrativas. Soluções personalizadas para sua saúde e bem-estar."
+                canonical="https://ozonelife.com.br/servicos"
+            />
             <div className="bg-cyan-50 py-20 mb-12">
                 <div className="container mx-auto px-4 text-center">
                     <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Nossos Serviços</h1>
@@ -41,7 +48,7 @@ export default function Services() {
                                 className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group"
                             >
                                 <div className="h-56 overflow-hidden relative">
-                                    <img
+                                    <ImageWithSkeleton
                                         src={service.imagem_servico || 'https://via.placeholder.com/400x300'}
                                         alt={service.nome_servico}
                                         className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"

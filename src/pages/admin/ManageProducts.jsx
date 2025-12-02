@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '../../lib/base44';
-import { Plus, Pencil, Trash2, X, Image as ImageIcon } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Plus, Pencil, Trash2, X } from 'lucide-react';
+import { toast } from 'sonner';
 
 export default function ManageProducts() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -11,14 +11,18 @@ export default function ManageProducts() {
 
     const { data: products, isLoading } = useQuery({
         queryKey: ['products'],
-        queryFn: () => base44.entities.Produto.list('ordem'),
+        queryFn: () => base44.entities.Produto.filter({ ativo: true }, 'ordem'),
     });
 
     const createMutation = useMutation({
-        mutationFn: (data) => base44.entities.Produto.create(data),
+        mutationFn: (data) => base44.entities.Produto.create({ ...data, ativo: true }),
         onSuccess: () => {
             queryClient.invalidateQueries(['products']);
             setIsModalOpen(false);
+            toast.success('Produto criado com sucesso!');
+        },
+        onError: (error) => {
+            toast.error(`Erro ao criar produto: ${error.message}`);
         },
     });
 
@@ -27,13 +31,22 @@ export default function ManageProducts() {
         onSuccess: () => {
             queryClient.invalidateQueries(['products']);
             setIsModalOpen(false);
+            setEditingItem(null);
+            toast.success('Produto atualizado com sucesso!');
+        },
+        onError: (error) => {
+            toast.error(`Erro ao atualizar produto: ${error.message}`);
         },
     });
 
     const deleteMutation = useMutation({
-        mutationFn: (id) => base44.entities.Produto.delete(id),
+        mutationFn: (id) => base44.entities.Produto.update(id, { ativo: false }),
         onSuccess: () => {
             queryClient.invalidateQueries(['products']);
+            toast.success('Produto excluído com sucesso!');
+        },
+        onError: (error) => {
+            toast.error(`Erro ao excluir produto: ${error.message}`);
         },
     });
 
@@ -73,12 +86,8 @@ export default function ManageProducts() {
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {products?.map((product) => (
-                        <motion.div
+                        <div
                             key={product.id}
-                            layout
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
                             className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group"
                         >
                             <div className="h-48 overflow-hidden relative">
@@ -106,28 +115,26 @@ export default function ManageProducts() {
                                 <h3 className="font-bold text-lg mb-2 text-gray-900">{product.nome_produto}</h3>
                                 <p className="text-gray-500 text-sm line-clamp-3">{product.descricao_produto}</p>
                             </div>
-                        </motion.div>
+                        </div>
                     ))}
                 </div>
             )}
 
-            <AnimatePresence>
-                {isModalOpen && (
-                    <ProductModal
-                        isOpen={isModalOpen}
-                        onClose={handleCloseModal}
-                        initialData={editingItem}
-                        onSubmit={(data) => {
-                            if (editingItem) {
-                                updateMutation.mutate({ id: editingItem.id, data });
-                            } else {
-                                createMutation.mutate(data);
-                            }
-                        }}
-                        isSubmitting={createMutation.isPending || updateMutation.isPending}
-                    />
-                )}
-            </AnimatePresence>
+            {isModalOpen && (
+                <ProductModal
+                    isOpen={isModalOpen}
+                    onClose={handleCloseModal}
+                    initialData={editingItem}
+                    onSubmit={(data) => {
+                        if (editingItem) {
+                            updateMutation.mutate({ id: editingItem.id, data });
+                        } else {
+                            createMutation.mutate(data);
+                        }
+                    }}
+                    isSubmitting={createMutation.isPending || updateMutation.isPending}
+                />
+            )}
         </div>
     );
 }
@@ -145,24 +152,18 @@ function ProductModal({ isOpen, onClose, initialData, onSubmit, isSubmitting }) 
     const handleFileChange = async (e) => {
         const file = e.target.files[0];
         if (file) {
-            const { file_url } = await base44.integrations.Core.UploadFile({ file });
-            setFormData({ ...formData, imagem_produto: file_url });
+            try {
+                const { file_url } = await base44.integrations.Core.UploadFile({ file });
+                setFormData({ ...formData, imagem_produto: file_url });
+            } catch (error) {
+                toast.error('Erro ao fazer upload da imagem');
+            }
         }
     };
 
     return (
-        <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
-        >
-            <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
-                className="bg-white rounded-2xl w-full max-w-lg shadow-2xl max-h-[90vh] flex flex-col"
-            >
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+            <div className="bg-white rounded-2xl w-full max-w-lg shadow-2xl max-h-[90vh] flex flex-col">
                 <div className="p-6 border-b border-gray-100 flex justify-between items-center flex-shrink-0">
                     <h2 className="text-xl font-bold text-gray-900">
                         {initialData ? 'Editar Produto' : 'Novo Produto'}
@@ -222,7 +223,7 @@ function ProductModal({ isOpen, onClose, initialData, onSubmit, isSubmitting }) 
                                 </div>
                             ) : (
                                 <div className="py-8 text-gray-400 flex flex-col items-center gap-2">
-                                    <ImageIcon size={32} />
+                                    <span>📷</span>
                                     <span>Clique para fazer upload</span>
                                 </div>
                             )}
@@ -274,13 +275,14 @@ function ProductModal({ isOpen, onClose, initialData, onSubmit, isSubmitting }) 
                         <button
                             type="submit"
                             disabled={isSubmitting}
-                            className="px-6 py-2 bg-emerald-600 text-white rounded-lg font-medium hover:bg-emerald-700 disabled:opacity-50"
+                            className="px-6 py-2 bg-emerald-600 text-white rounded-lg font-medium hover:bg-emerald-700 disabled:opacity-50 flex items-center gap-2"
                         >
+                            {isSubmitting && <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>}
                             {isSubmitting ? 'Salvando...' : 'Salvar'}
                         </button>
                     </div>
                 </form>
-            </motion.div>
-        </motion.div>
+            </div>
+        </div>
     );
 }

@@ -1,6 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { base44 } from '../../lib/base44';
+import SEO from '../../components/seo/SEO';
+import ImageWithSkeleton from '../../components/ui/ImageWithSkeleton';
 
 export default function Products() {
     const { data: products, isLoading } = useQuery({
@@ -10,6 +12,11 @@ export default function Products() {
 
     return (
         <div className="pb-20">
+            <SEO
+                title="Nossos Produtos"
+                description="Confira nossa linha de produtos selecionados com a qualidade do ozônio para potencializar sua saúde e beleza."
+                canonical="https://ozonelife.com.br/produtos"
+            />
             <div className="bg-emerald-50 py-20 mb-12">
                 <div className="container mx-auto px-4 text-center">
                     <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Nossos Produtos</h1>
@@ -41,7 +48,7 @@ export default function Products() {
                                 className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group"
                             >
                                 <div className="h-56 overflow-hidden relative">
-                                    <img
+                                    <ImageWithSkeleton
                                         src={product.imagem_produto || 'https://via.placeholder.com/400x300'}
                                         alt={product.nome_produto}
                                         className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"

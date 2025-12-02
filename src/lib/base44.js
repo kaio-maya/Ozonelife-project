@@ -89,6 +89,7 @@ export const base44 = {
         Produto: createEntity('produtos'),
         Agendamento: createEntity('agendamentos'),
         Venda: createEntity('vendas'),
+        Paciente: createEntity('pacientes'),
     },
     auth: {
         login: async (email, password) => {

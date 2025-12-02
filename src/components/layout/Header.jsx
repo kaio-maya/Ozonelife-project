@@ -17,7 +17,7 @@ export default function Header() {
         ? [
             { name: 'Dashboard', path: '/dashboard' },
             { name: 'Calendário', path: '/calendario' },
-            { name: 'Formulário', path: '/vendas' },
+            { name: 'Vendas', path: '/vendas' },
             { name: 'Serviços', path: '/gerenciarservicos' },
             { name: 'Produtos', path: '/gerenciarprodutos' },
             { name: 'Agendamentos', path: '/agendamentos' },

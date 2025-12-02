@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Shield, Activity, Heart, CheckCircle } from 'lucide-react';
 import { base44 } from '../../lib/base44';
+import SEO from '../../components/seo/SEO';
 
 export default function Home() {
     const { data: services, isLoading: loadingServices } = useQuery({
@@ -39,6 +40,11 @@ export default function Home() {
 
     return (
         <div className="flex flex-col gap-20 pb-20">
+            <SEO
+                title="Home"
+                description="Ozonelife - Clínica especializada em Ozonoterapia Integrativa para revitalizar sua saúde e fortalecer sua imunidade."
+                canonical="https://ozonelife.com.br/"
+            />
             {/* Hero Section */}
             <section className="relative h-[600px] flex items-center justify-center bg-gradient-to-br from-gray-900 to-gray-800 text-white overflow-hidden">
                 <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=1600')] bg-cover bg-center opacity-20" />
